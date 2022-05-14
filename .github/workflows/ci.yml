@@ -24,7 +24,7 @@ jobs:
 
     env:
       DOTNET_CLI_TELEMETRY_OPTOUT: 1
-      PROJECT_NAME: Lynx
+      PROJECT_NAME: Lynx_AzureBotApi
 
     steps:
     - uses: actions/checkout@v3
