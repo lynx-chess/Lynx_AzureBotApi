@@ -24,7 +24,7 @@ jobs:
 
     env:
       DOTNET_CLI_TELEMETRY_OPTOUT: 1
-      PROJECT_NAME: Lynx
+      PROJECT_NAME: Lynx_AzureBotApi
 
     steps:
     - uses: actions/checkout@v3
@@ -53,37 +53,28 @@ jobs:
     - name: Run CI tests
       run: dotnet test -c Release --no-build --collect:"XPlat Code Coverage" --logger "console;verbosity=normal"
 
-    - name: '[Ubuntu] Generate test coverage report'
-      if: matrix.os == 'ubuntu-latest' && matrix.configuration == 'Release'
-      uses: danielpalme/ReportGenerator-GitHub-Action@5.1.6
-      with:
-        reports: 'tests/**/*.cobertura.xml'
-        targetdir: 'coveragereport'
-        reporttypes: 'HtmlInline_AzurePipelines_Dark;SonarQube;Cobertura'
-        assemblyfilters: '+*'
-        classfilters: '+*'
-        filefilters: '+*'
-        verbosity: 'Info'
-        title: '${{ env.PROJECT_NAME }} #${{ github.run_number }} (${{ env.GITHUB_REF_SLUG }})'
-        tag: '${{ github.run_number }}_${{ github.run_id }}'
-        customSettings: 'numberOfReportsParsedInParallel=3;numberOfReportsMergedInParallel=3'
+    #- name: '[Ubuntu] Generate test coverage report'
+    #  if: matrix.os == 'ubuntu-latest'
+    #  uses: danielpalme/ReportGenerator-GitHub-Action@5.1.6
+    #  with:
+    #    reports: 'tests/**/*.cobertura.xml'
+    #    targetdir: 'coveragereport'
+    #    reporttypes: 'HtmlInline_AzurePipelines_Dark;SonarQube;Cobertura'
+    #    assemblyfilters: '+*'
+    #    classfilters: '+*'
+    #    filefilters: '+*'
+    #    verbosity: 'Info'
+    #    title: '${{ env.PROJECT_NAME }} #${{ github.run_number }} (${{ env.GITHUB_REF_SLUG }})'
+    #    tag: '${{ github.run_number }}_${{ github.run_id }}'
+    #    customSettings: 'numberOfReportsParsedInParallel=3;numberOfReportsMergedInParallel=3'
 
-    - name: '[Ubuntu] Upload test coverage report'
-      if: matrix.os == 'ubuntu-latest'
-      uses: actions/upload-artifact@v3
-      with:
-        name: ${{ env.PROJECT_NAME }}-build-coverage-ci-${{ github.run_number }}
-        path: coveragereport/
-        if-no-files-found: error
+    #- name: '[Ubuntu] Upload test coverage report'
+    #  if: matrix.os == 'ubuntu-latest'
+    #  uses: actions/upload-artifact@v3
+    #  with:
+    #    name: ${{ env.PROJECT_NAME }}-build-coverage-ci-${{ github.run_number }}
+    #    path: coveragereport/
+    #    if-no-files-found: error
 
     - name: Publish API
       run: dotnet publish src/Lynx.AzureBotApi/Lynx.AzureBotApi.csproj -c Release --runtime ${{ matrix.runtime-identifier }} --self-contained -o artifacts/${{ matrix.runtime-identifier }}
-
-    - name: Upload Lynx-${{ env.GITHUB_REF_SLUG }}-${{ github.run_number }}-${{ matrix.runtime-identifier }} artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: Lynx-${{ env.GITHUB_REF_SLUG }}-${{ github.run_number }}-${{ matrix.runtime-identifier }}
-        path: |
-          artifacts/${{ matrix.runtime-identifier }}/
-          !artifacts/**/*.pdb
-        if-no-files-found: error
