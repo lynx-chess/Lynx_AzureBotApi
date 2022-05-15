@@ -1,5 +1,7 @@
 # Lynx_AzureBotApi
 
+[![Lynx_AzureBotApi build][buildlogo]][buildlink]
+
 Runs [Lynx](https://github.com/lynx-chess/Lynx) chess engine in the background, exposing:
 
 - Its input via a REST API prepared to be consumed by Azure Bot service (see [BotController](src/Lynx.AzureBotApi/Controllers/BotController)).
@@ -10,6 +12,9 @@ Runs [Lynx](https://github.com/lynx-chess/Lynx) chess engine in the background, 
 Sample Azure provisioning and deploying scripts are provided "as-is", use them under your own responsibility and be extra careful not to expose sensitive Azure information there or in `appsettings.json` file when committing changes.
 
 Project scaffolded from Proactive Messages sample from [microsoft/BotBuilder-Samples](https://github.com/microsoft/BotBuilder-Samples). Original README file follows (updated one can be found [here](https://github.com/microsoft/BotBuilder-Samples/tree/main/samples/csharp_dotnetcore/16.proactive-messages)):
+
+[buildlink]: https://github.com/lynx-chess/Lynx_AzureBotApi/actions/workflows/ci.yml
+[buildlogo]: https://github.com/lynx-chess/Lynx_AzureBotApi/actions/workflows/ci.yml/badge.svg
 
 ----
 
