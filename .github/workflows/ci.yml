@@ -78,12 +78,3 @@ jobs:
 
     - name: Publish API
       run: dotnet publish src/Lynx.AzureBotApi/Lynx.AzureBotApi.csproj -c Release --runtime ${{ matrix.runtime-identifier }} --self-contained -o artifacts/${{ matrix.runtime-identifier }}
-
-    - name: Upload Lynx-${{ env.GITHUB_REF_SLUG }}-${{ github.run_number }}-${{ matrix.runtime-identifier }} artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: Lynx-${{ env.GITHUB_REF_SLUG }}-${{ github.run_number }}-${{ matrix.runtime-identifier }}
-        path: |
-          artifacts/${{ matrix.runtime-identifier }}/
-          !artifacts/**/*.pdb
-        if-no-files-found: error
